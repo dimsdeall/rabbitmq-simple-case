@@ -1,0 +1,27 @@
+{
+  "name": "express-rabbitmq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:pubsubfanout": "concurrently \"nodemon pubsubFanout/producer.ts \" \"nodemon pubsubFanout/consumer1.ts\" \"nodemon pubsubFanout/consumer2.ts\"",
+    "dev:pubsubdirect": "concurrently \"nodemon pubsubDirect/producer.ts \" \"nodemon pubsubDirect/consumer1.ts\" \"nodemon pubsubDirect/consumer2.ts\"",
+    "dev:pubsubtopic": "concurrently \"nodemon pubsubTopic/producer.ts \" \"nodemon pubsubTopic/consumer1.ts\" \"nodemon pubsubTopic/consumer2.ts\" \"nodemon pubsubTopic/consumer3.ts\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.4",
+    "@types/express": "^4.17.21"
+  }
+}
