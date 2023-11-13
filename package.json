@@ -6,13 +6,15 @@
   "scripts": {
     "dev:pubsubfanout": "concurrently \"nodemon pubsubFanout/producer.ts \" \"nodemon pubsubFanout/consumer1.ts\" \"nodemon pubsubFanout/consumer2.ts\"",
     "dev:pubsubdirect": "concurrently \"nodemon pubsubDirect/producer.ts \" \"nodemon pubsubDirect/consumer1.ts\" \"nodemon pubsubDirect/consumer2.ts\"",
-    "dev:pubsubtopic": "concurrently \"nodemon pubsubTopic/producer.ts \" \"nodemon pubsubTopic/consumer1.ts\" \"nodemon pubsubTopic/consumer2.ts\" \"nodemon pubsubTopic/consumer3.ts\""
+    "dev:pubsubtopic": "concurrently \"nodemon pubsubTopic/producer.ts \" \"nodemon pubsubTopic/consumer1.ts\" \"nodemon pubsubTopic/consumer2.ts\" \"nodemon pubsubTopic/consumer3.ts\"",
+    "dev:pubsubconnection": "concurrently \"nodemon caseConnection/producer.ts \" \"nodemon caseConnection/consumer1.ts\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.10.3",
+    "axios": "^1.6.1",
     "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
