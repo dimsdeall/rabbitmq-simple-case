@@ -29,6 +29,16 @@ app.get('/exchanges', async (req, res) => {
         })
 })
 
+app.get('/health', async (req, res) => {
+    return await axios.get(`${config.rabbitmqHttp}/api/health/checks/virtual-hosts`, {auth})
+        .then((response) => {
+            return res.status(200).send({response: response.data})
+        })
+        .catch(err => {
+            return res.status(403).json({err})
+        })
+})
+
 
 
 app.listen(port, () => {

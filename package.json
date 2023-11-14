@@ -9,7 +9,9 @@
     "dev:pubsubtopic": "concurrently \"nodemon pubsubTopic/producer.ts \" \"nodemon pubsubTopic/consumer1.ts\" \"nodemon pubsubTopic/consumer2.ts\" \"nodemon pubsubTopic/consumer3.ts\"",
     "dev:pubsubconnection": "concurrently \"nodemon caseConnection/producer.ts \" \"nodemon caseConnection/consumer1.ts\"",
     "dev:queuework": "concurrently \"nodemon queueWork/producer.ts \" \"nodemon queueWork/consumer1.ts\" \"nodemon queueWork/consumer2.ts\"",
-    "dev:queuework1": "concurrently \"nodemon queueWork/producer.ts \" \"nodemon queueWork/consumer1.ts\""
+    "dev:queuework1": "concurrently \"nodemon queueWork/producer.ts \" \"nodemon queueWork/consumer1.ts\"",
+    "dev:caseretry": "concurrently \"nodemon caseRetry/producer.ts \" \"nodemon caseRetry/consumer1.ts\""
+
   },
   "keywords": [],
   "author": "",
