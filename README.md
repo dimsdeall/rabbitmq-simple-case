@@ -12,7 +12,7 @@ Cara kerja RabbitMQ sebagai berikut:
 
 3. **Queue** (Antrian): Setiap pelanggan memiliki antrian sendiri yang terhubung ke pertukaran. Pesan yang dikirim oleh penerbit ke pertukaran akan didistribusikan oleh pertukaran ke antrian pelanggan yang berlangganan pesan tersebut.
 
-4. **Subscriber** (Pelanggan): Pelanggan adalah komponen yang berlangganan ke antrean tertentu di RabbitMQ. Mereka akan menerima pesan yang dikirimkan ke antrean yang mereka langgani.
+4. **Subscriber** (Pelanggan): Pelanggan adalah komponen yang berlangganan ke antrian tertentu di RabbitMQ. Mereka akan menerima pesan yang dikirimkan ke antrian yang mereka langgani.
 
 
 
@@ -40,8 +40,8 @@ Acknowledge dan durable adalah dua konsep yang terkait dengan keandalan dan kebe
    - Acknowledge membantu dalam mencapai ketersediaan dan keandalan sistem pesan.
 
 2. ### **Durable**.
-   - **Durable** mengacu pada sifat persisten atau tahan lama dari antrean dan pertukaran RabbitMQ.
-   - Jika antrean atau pertukaran dinyatakan sebagai durable, mereka akan tetap ada bahkan setelah server RabbitMQ restart. Hal ini memastikan bahwa konfigurasi dan data tidak hilang.
+   - **Durable** mengacu pada sifat persisten atau tahan lama dari antrian dan pertukaran RabbitMQ.
+   - Jika antrian atau pertukaran dinyatakan sebagai durable, mereka akan tetap ada bahkan setelah server RabbitMQ restart. Hal ini memastikan bahwa konfigurasi dan data tidak hilang.
    - Pesan juga dapat diberi atribut durability. Jika pesan dinyatakan sebagai durable, RabbitMQ akan menyimpannya ke disk, sehingga pesan tersebut tidak akan hilang meskipun RabbitMQ restart.
    - Durability membantu dalam menjaga konsistensi dan keberlanjutan sistem pesan.
 
@@ -51,9 +51,6 @@ Acknowledge dan durable adalah dua konsep yang terkait dengan keandalan dan kebe
 
 Dengan menggunakan prefetch, Anda dapat mengontrol berapa banyak pesan yang dikirimkan kepada konsumen sebelum konsumen memberikan ack untuk pesan-pesan tersebut. Ini dapat berguna untuk mencegah konsumen mengkonsumsi terlalu banyak pesan sekaligus, yang dapat menyebabkan kinerja yang buruk atau bahkan kehabisan sumber daya.
 
-
-
-Untuk penggunaan prefetch pada node js pada consumer dengan kode berikut  `channel.prefetch(1)`  jika ingin membatasi secara global ke semua chanel gunakan channel.prefetch(1, true) dan gunakan `channel.prefetch(1, false)` untuk membatasi ke consumer yang terikat.
 
 ## **Channel dan Connection**
 Dalam konteks RabbitMQ, terdapat dua konsep penting yang berkaitan dengan koneksi dan saluran komunikasi:
@@ -80,7 +77,7 @@ Retry dan health check adalah dua konsep penting dalam pengelolaan sistem dan ke
    - Ini membantu mencegah oversaturation pada saat kesalahan dan memberikan waktu untuk pemulihan sistem.
 
 2. **Dead Letter Exchange (DLX):**
-   - Konfigurasikan antrean dengan Dead Letter Exchange. Jika pesan tidak dapat diproses setelah sejumlah percobaan tertentu, kirim pesan ke Dead Letter Exchange.
+   - Konfigurasikan antrian dengan Dead Letter Exchange. Jika pesan tidak dapat diproses setelah sejumlah percobaan tertentu, kirim pesan ke Dead Letter Exchange.
    - Pesan yang dikirim ke Dead Letter Exchange dapat diinspeksi atau diolah lebih lanjut.
 
 3. **Retry Counter:**
@@ -90,68 +87,17 @@ Retry dan health check adalah dua konsep penting dalam pengelolaan sistem dan ke
 ### Health Check:
 
 1. **Monitoring dan Alerting:**
-   - Gunakan alat pemantauan untuk memonitor kesehatan RabbitMQ, termasuk statistik performa, status koneksi, dan status antrean.
+   - Gunakan alat pemantauan untuk memonitor kesehatan RabbitMQ, termasuk statistik performa, status koneksi, dan status antrian.
    - Atur notifikasi atau alerting untuk memberi tahu ketika ada masalah atau ketidaknormalan.
 
 2. **HTTP Health Check Endpoint:**
    - Implementasikan endpoint HTTP khusus pada aplikasi Anda yang berinteraksi dengan RabbitMQ untuk menyediakan informasi status kesehatan.
-   - Endpoint ini dapat memberikan respons berdasarkan status RabbitMQ, jumlah pesan di antrean, atau parameter kesehatan lainnya.
+   - Endpoint ini dapat memberikan respons berdasarkan status RabbitMQ, jumlah pesan di antrian, atau parameter kesehatan lainnya.
 
 3. **Connection Heartbeats:**
    - Aktifkan heartbeats pada level koneksi. RabbitMQ dapat mengirim heartbeats secara berkala dan mengharapkan balasan dari klien.
    - Jika koneksi terputus atau tidak menerima heartbeats, RabbitMQ dapat menganggap koneksi tersebut tidak sehat.
 
 4. **Queue Length Monitoring:**
-   - Pantau panjang antrean secara teratur. Jika jumlah pesan di antrean melebihi batas tertentu, ini dapat menjadi indikator bahwa sistem tidak dapat menangani beban pekerjaan saat ini.
-
-### Contoh Penerapan Health Check:
-
-```python
-import pika
-import requests
-import time
-
-def rabbitmq_health_check():
-    try:
-        # Lakukan koneksi RabbitMQ
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-        channel = connection.channel()
-        
-        # Pastikan antrean ada dan dapat diakses
-        channel.queue_declare(queue='health_check_queue', durable=True)
-        
-        # Kirim pesan ke antrean untuk memicu respons dari konsumen
-        channel.basic_publish(exchange='', routing_key='health_check_queue', body='Health Check Message')
-        
-        # Tunggu respons dari konsumen
-        time.sleep(2)  # Contoh: Tunggu 2 detik
-        
-        # Tutup koneksi
-        connection.close()
-        
-        return True
-    except Exception as e:
-        print(f"Health Check Failed: {e}")
-        return False
-
-# Contoh HTTP endpoint untuk health check
-from flask import Flask, jsonify
-
-app = Flask(__name__)
-
-@app.route('/health', methods=['GET'])
-def health_check():
-    rabbitmq_status = rabbitmq_health_check()
-    if rabbitmq_status:
-        return jsonify({"status": "OK", "message": "RabbitMQ is healthy"})
-    else:
-        return jsonify({"status": "ERROR", "message": "RabbitMQ is not healthy"}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-Contoh di atas adalah implementasi sederhana dari health check menggunakan Flask untuk endpoint HTTP dan pika untuk health check RabbitMQ. Endpoint `/health` dapat diakses untuk memeriksa status kesehatan RabbitMQ. Anda dapat menyusun strategi yang lebih kompleks sesuai kebutuhan aplikasi Anda.
-
-
+   - Pantau panjang antrian secara teratur. Jika jumlah pesan di antrian melebihi batas tertentu, ini dapat menjadi indikator bahwa sistem tidak dapat menangani beban pekerjaan saat ini.
 
