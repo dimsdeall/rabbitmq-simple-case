@@ -11,7 +11,12 @@ async function configRabbit() {
     try {
         connection = await amqlib.connect(config.rabbitMqUrl)
         channel = await connection.createChannel()
-        await channel.assertQueue(queueName, { durable: true })
+
+        await channel.assertQueue(queueName, {
+            durable: true,
+            deadLetterExchange: "dead.exchange",
+            deadLetterRoutingKey: `dead.${queueName}`
+        })
     } catch (error) {
         console.log(error);
     }
@@ -21,7 +26,9 @@ configRabbit()
 
 app.get('/', (req, res) => {
     try {
-        channel.sendToQueue(queueName, Buffer.from('test queue'))
+        channel.sendToQueue(queueName, Buffer.from('test queue'), {
+            persistent: true
+        })
         res.send({ message: 'success' })
     } catch (error) {
         res.status(401).send({ error })
