@@ -9,7 +9,9 @@ const queueName = 'queueWork'
 
 async function configRabbit() {
     try {
-        connection = await amqlib.connect(config.rabbitMqUrl)
+        connection = await amqlib.connect(config.rabbitMqUrl, {
+            heartbeat: 10, // Interval heartbeat in second
+        })
         channel = await connection.createChannel()
         await channel.assertQueue(queueName, { durable: true })
     } catch (error) {

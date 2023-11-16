@@ -39,6 +39,16 @@ app.get('/health', async (req, res) => {
         })
 })
 
+app.get('/queue', async (req, res) => {
+    return await axios.get(`${config.rabbitmqHttp}/api/queues`, {auth})
+        .then((response) => {
+            return res.status(200).send({response: response.data})
+        })
+        .catch(err => {
+            return res.status(403).json({err})
+        })
+})
+
 
 
 app.listen(port, () => {

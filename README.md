@@ -1,5 +1,19 @@
 <center> <h1><b>Materi RabbitMQ</b> </h1></center>
 
+## **Event Driven Architecture**
+Event Driven Architecture (EDA) adalah paradigma arsitektur pengembangan aplikasi yang dimana setiap komponen berkomunikasi melalui peristiwa(event) yang terjadi di dalam sistem. Di dalam arsitektur ini setiap komponen ataupun layanan dikembangkan untuk merespon terhadap setiap event yang terjadi di dalam sistem.  
+- Kelebihan.
+   - Loose Coupling.
+   - Scalability.
+   - Flexibility and Agility.
+   - Asynchronous Communication.
+   - Decoupled Microservices.
+- Kekurangan.
+   - Complexity.
+   - Consistency and Ordering.
+   - Debugging and Tracing.
+   - Event Overhead.
+   - Event Storming and.
 
 
 ## **Pub/Sub**
@@ -34,7 +48,7 @@ RabbitMQ mendukung beberapa jenis exchange yang memungkinkan Anda mengontrol bag
 Acknowledge dan durable adalah dua konsep yang terkait dengan keandalan dan keberlanjutan (durability) dalam sistem pesan RabbitMQ.
 
 1. ### **Acknowledge (Ack).**
-   - **Acknowledge** adalah konsep di mana setelah seorang konsumen (consumer) menerima dan memproses pesan dari antrian, konsumen memberi tahu RabbitMQ bahwa pesan tersebut telah berhasil diproses.
+   - **Acknowledge** adalah konsep di mana setelah service konsumen (consumer) menerima dan memproses pesan dari antrian, konsumen memberi tahu RabbitMQ bahwa pesan tersebut telah berhasil diproses.
    - RabbitMQ menggunakan konsep ack untuk mengonfirmasi bahwa pesan telah diterima dan diproses dengan sukses oleh konsumen.
    - Jika ack tidak diberikan oleh konsumen (misalnya, karena terjadi kesalahan dalam pemrosesan pesan), RabbitMQ dapat menganggap pesan tersebut belum diproses dan mengirimkannya ke konsumen lain atau menyimpannya kembali di antrian.
    - Acknowledge membantu dalam mencapai ketersediaan dan keandalan sistem pesan.
