@@ -1,5 +1,9 @@
 <center> <h1><b>Materi RabbitMQ</b> </h1></center>
 
+Dokumen RabbitMQ : [link](https://docs.google.com/document/d/1934uNRMFwdycN6HhkBgRyjRSOQ9nZTE3TCbkR-C9KgY/edit?usp=sharing)
+
+Presentasi RabbitMQ : [link](https://docs.google.com/presentation/d/1Zfj4gJhQHEasqUXkp__GPuTZ_GszH3UZrUE8vZjiMjQ/edit?usp=sharing)
+
 ## **Event Driven Architecture**
 Event Driven Architecture (EDA) adalah paradigma arsitektur pengembangan aplikasi yang dimana setiap komponen berkomunikasi melalui peristiwa(event) yang terjadi di dalam sistem. Di dalam arsitektur ini setiap komponen ataupun layanan dikembangkan untuk merespon terhadap setiap event yang terjadi di dalam sistem.  
 - Kelebihan.
